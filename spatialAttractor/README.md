@@ -16,9 +16,64 @@
 1. Open `tutorial.ipynb`.
 2. Set dataset fields in the load-data section:
    - `dataset_name = "HTAN_WUSTL/scRNA_vali/raw_spatial"`
-   - `folder = "/Volumes/T7/datasets/" + dataset_name + "/"`
+   - `folder = "./datasets/" + dataset_name + "/"`
    - `sampleID = "HT232P1H2A2"`
 3. Run all cells in order.
+
+### Directory structure
+```
+├── /path/to/dataset/
+│   └── raw/
+│       ├── {sampleID1}/
+│       │   ├── filtered_feature_bc_matrix.h5
+│       │   ├── filtered_feature_bc_matrix/
+│       │   │   ├── barcodes.tsv.gz
+│       │   │   ├── features.tsv.gz
+│       │   │   └── matrix.mtx.gz
+│       │   └── spatial/
+│       │       ├── tissue_positions_list.csv
+│       │       ├── scalefactors_json.json
+│       │       └── tissue_lowres_image.png
+│       ├── {sampleID2}/
+│       │   ├── filtered_feature_bc_matrix.h5
+│       │   ├── filtered_feature_bc_matrix/
+│       │   │   ├── barcodes.tsv.gz
+│       │   │   ├── features.tsv.gz
+│       │   │   └── matrix.mtx.gz
+│       │   └── spatial/
+│       │       ├── tissue_positions_list.csv
+│       │       ├── scalefactors_json.json
+│       │       └── tissue_lowres_image.png
+```
+
+### Required files
+
+**`filtered_feature_bc_matrix.h5`** — HDF5-formatted gene expression matrix 
+
+**`filtered_feature_bc_matrix/`** — Gene expression matrix (Optional, 10x Genomics format, fallback if .h5 unavailable)
+- `barcodes.tsv.gz` — Spot/cell barcodes
+- `features.tsv.gz` — Gene names and IDs
+- `matrix.mtx.gz` — Sparse matrix of counts
+
+**`spatial/`** — Spatial coordinate and image data
+- `tissue_positions_list.csv` — Barcode-to-coordinate mapping (columns: `barcode, in_tissue, array_row, array_col, pxl_row, pxl_col`)
+- `scalefactors_json.json` — Image scale factors for visualization
+- `tissue_lowres_image.png` — Low-resolution H&E or IF image
+
+### Example
+For a sample with ID `HT232P1H2A2`, your directory would look like:
+```
+./datasets/HTAN_WUSTL/scRNA_vali/raw_spatial/raw/HT232P1H2A2/
+├── filtered_feature_bc_matrix.h5
+├── filtered_feature_bc_matrix/
+│   ├── barcodes.tsv.gz
+│   ├── features.tsv.gz
+│   └── matrix.mtx.gz
+└── spatial/
+    ├── tissue_positions_list.csv
+    ├── scalefactors_json.json
+    └── tissue_lowres_image.png
+```
 
 ## Core analysis flow
 1. **Load data** with `spatialTool().dataprocess(...)`

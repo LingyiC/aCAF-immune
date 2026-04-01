@@ -325,7 +325,8 @@ class spatialTool:
 
         # ---- plots ----
         if verbose: 
-            sc.pl.spatial(adata, img_key="lowres", color="clusters", size=1.5)
+            # img_key="lowres"
+            sc.pl.spatial(adata, img_key=None, color="clusters", size=1.5)
         # sc.pl.embedding(adata,  basis='X_spatial', show=False, color='clusters')
         
         # Fix spatial coordinate naming for squidpy compatibility
